@@ -36,6 +36,11 @@ end
 
 function tClass:onExit()
     tClass.super.onExit(self)
+
+    -- 热更新
+    if GameConfig.isDebug and self.__cpath then
+        helper.reload(self.__cpath)
+    end
 end
 
 function tClass:close()
@@ -100,7 +105,7 @@ function tClass:setTitle(text)
     helper.remove(self.titleLabel)
 
     if text then
-        local titleLabel = gui.newLabel(text)
+        local titleLabel = ui.newLabel(text)
         self.titleLabel = titleLabel
         ui.align(self.titleBg, titleLabel)
         self.titleBg:addChild(titleLabel)
@@ -111,7 +116,7 @@ end
 function tClass:addCloseBtn(closeImg)
     helper.remove(self.closeBtn)
 
-    local btn = gui.newButton(nil, closeImg or "res/common/btn_close.png", function() self:close() end)
+    local btn = ui.newButton(nil, closeImg or "res/common/btn_close.png", function() self:close() end)
     self.closeBtn = btn
     self:addChild(btn, 99)
     ui.align(self, btn, 1, 1, cc.p(0.5, 0.5), -17, -17)

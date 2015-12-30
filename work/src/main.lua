@@ -1,14 +1,25 @@
 local setting = {
-    viewRect = cc.rect(0, 0, 480, 320),
-    resolutionSize = cc.size(960, 640),
+    viewRect = cc.rect(0, 0, 1136 * 0.8, 640 * 0.8),
+    resolutionSize = cc.size(1136, 640),
     resolutionPolicy = cc.ResolutionPolicy.FIXED_WIDTH,
-    displayStats = false,
+    displayStats = true,
 }
  -- 打印函数
 gprint = print
 -- print = function() end
 
-package.path = ";./?.lua;src/?.lua"
+-- 加载函数
+oldRequire = require
+require = function(path)
+    local ret = oldRequire(path)
+    if ret and (type(ret) == "userdata" or type(ret) == "table") then
+        ret.__cpath = path -- 如果是类/对象，保存它的路径
+        -- print("=== ret.__cpath =" .. ret.__cpath)
+    end
+    return ret
+end
+
+package.path = ";./?.lua;src/?.lua;work/src?.lua"
 
 -- CC_USE_DEPRECATED_API = true
 require "cocos/init"
@@ -60,27 +71,23 @@ local function initDirector()
     glview:setDesignResolutionSize(setting.resolutionSize.width, 
                                 setting.resolutionSize.height,
                                 setting.resolutionPolicy)
-    --turn on display FPS
-    director:setDisplayStats(true)
 
     --set FPS. the default value is 1.0/60 if you don't call this
     director:setAnimationInterval(1.0 / 60)
 
+    --turn on display FPS
+    director:setDisplayStats(setting.displayStats)
+    cc.Texture2D:PVRImagesHavePremultipliedAlpha(true)
 
     local visibleSize = cc.Director:getInstance():getVisibleSize()
     local origin = cc.Director:getInstance():getVisibleOrigin()
     
-
     --support debug
     local targetPlatform = cc.Application:getInstance():getTargetPlatform()
     if (cc.PLATFORM_OS_IPHONE == targetPlatform) or (cc.PLATFORM_OS_IPAD == targetPlatform) or
        (cc.PLATFORM_OS_ANDROID == targetPlatform) or (cc.PLATFORM_OS_WINDOWS == targetPlatform) or
        (cc.PLATFORM_OS_MAC == targetPlatform) then
     end
-
-    --turn on display FPS
-    director:setDisplayStats(setting.displayStats)
-    cc.Texture2D:PVRImagesHavePremultipliedAlpha(true)
 end
 
 

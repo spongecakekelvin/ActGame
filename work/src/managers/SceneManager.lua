@@ -56,7 +56,7 @@ initFunc["game"] = function(scene)
 	require "GameInit"
 
 	-- local rootLayer = cc.Layer:create()
-	local rootLayer = gui.newLayer(cc.c4b(255, 255, 255, 255)) 
+	local rootLayer = ui.newLayer(cc.c4b(255, 255, 255, 255)) 
 
 	sceneLayer = cc.Layer:create()
 	uiLayer = cc.Layer:create()
@@ -72,5 +72,7 @@ initFunc["game"] = function(scene)
 
     -- 进入游戏
     EventManager.dispatch(EventType.game_enter)
+    EventManager.dispatch(EventType.create_fight_view)
+    EventManager.dispatch(EventType.create_main_ui_view)
 end
 

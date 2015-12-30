@@ -2,13 +2,14 @@
 local tClass = class("MainUIController")
 
 function tClass:ctor()
-	EventManager.addListener(EventType.game_enter, self.openView, self)
+	-- EventManager.addListener(EventType.game_enter, self.openView, self)
+	EventManager.addListener(EventType.create_main_ui_view, self.createMainUIVIew, self)
 end
 
-function tClass:openView()
-	if tolua.isnull(self.testView) then
+function tClass:createMainUIVIew()
+	if tolua.isnull(self.mainUIView) then
 		self.mainUIView = require("modules/mainUI/MainUIView").new()
-		SceneManager.windowLayer:addChild(self.mainUIView)
+		SceneManager.uiLayer:addChild(self.mainUIView)
 	end
 end
 

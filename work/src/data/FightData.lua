@@ -1,0 +1,2 @@
+module("FightData", package.seeall)
+

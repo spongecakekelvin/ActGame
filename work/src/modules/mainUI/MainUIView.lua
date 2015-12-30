@@ -1,27 +1,25 @@
 -- GameView.lua
 local tClass =  class("MainUIView", ui.BaseLayer)
 
-local dataLoaded
-
 function tClass:ctor()
     tClass.super.ctor(self)
 end
 
+
 function tClass:onEnter()
     tClass.super.onEnter(self)
 
-    Log.i("mainui view on enter111")
-    local btn = gui.newButton("测试界面", 1, function()
-    	Log.i("点击测试按钮")
+    local btn = ui.newButton("测试界面", 1, function()
     	CtlManager.test:openView()
 	end)
-	ui.addChild(self, btn, 400, 320)
-	Log.i("mainui view on enter66666")
+	local btnSize = btn:getContentSize()
+	ui.addChild(self, btn, btnSize.width / 2, btnSize.height / 2)
 end
 
 function tClass:onExit()
 	tClass.super.onExit(self)
 end
+
 
 
 return tClass

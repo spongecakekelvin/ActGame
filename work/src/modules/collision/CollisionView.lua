@@ -11,7 +11,7 @@ function tClass:ctor()
 
     self:setContentSize(cc.size(400, 400))
 
-    local layer = gui.newLayer(cc.c4b(255, 255, 0, 80), cc.size(400, 400))
+    local layer = ui.newLayer(cc.c4b(255, 255, 0, 80), cc.size(400, 400))
     self:addChild(layer)
     ui.align(self, layer)
 end

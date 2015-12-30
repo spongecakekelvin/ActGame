@@ -4,7 +4,9 @@ local tClass =  class("BaseButton", ui.BaseLayer)
 function tClass:ctor(name, imagePath, callback, size)
     tClass.super.ctor(self)
     -- print("base button ctor")
-    
+    self:ignoreAnchorPointForPosition(false)
+    self:setAnchorPoint(cc.p(0.5, 0.5))
+
     self.beganCallback = nil
     self.endedCallback = nil
     self.movedCallback = nil
@@ -34,15 +36,16 @@ function tClass:ctor(name, imagePath, callback, size)
         self:addChild(self.buttonSpr)
     end
 
-    -- local layer = gui.newLayer(cc.c4b(255, 255, 255, 80), cc.size(400, 400))
+    -- local layer = ui.newLayer(cc.c4b(255, 255, 255, 80), cc.size(400, 400))
     -- self:addChild(layer)
     -- ui.align(self, layer)
     
+    -- 添加吞噬类型的触摸事件
     self:addTouch()
     
     -- 按钮文字
     if self.name and self.name ~= "" then
-        self.label = gui.newLabel(name)
+        self.label = ui.newLabel(name)
         ui.align(self, self.label)
         self:addChild(self.label)
     end

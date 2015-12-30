@@ -21,7 +21,7 @@ function addListener(eventType, listener, object)
 		if not isExist then
 			table.insert(eventList[eventType], {listener = listener, object = object})
 		else
-			Log.e("监听列表中已存在事件 event type = " .. eventType)
+			Log.e("监听列表中已存在事件 event type = " .. EventTypeName[eventType])
 		end
 	else
 		eventList[eventType] = {}
@@ -42,7 +42,7 @@ function removeListener(evnetType, listener)
 end
 
 function dispatch(eventType, ...)
-	Log.i("=====dispatch= evnetType = " .. eventType)
+	-- Log.i("=====dispatch= evnetType = " .. EventTypeName[eventType])
 	if eventList[eventType] then
 		for i, v in pairs(eventList[eventType]) do
 			if v.object then
@@ -52,7 +52,7 @@ function dispatch(eventType, ...)
 			end
 		end
 	else
-		Log.i("事件没有监听 eventType = " .. eventType)
+		Log.i("事件没有监听 eventType = " .. EventTypeName[eventType])
 	end
 	-- Log.t(eventList)
 end

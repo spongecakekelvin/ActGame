@@ -7,19 +7,12 @@ module("ViewManager", package.seeall)
 
 local viewConfig = require("config/ViewConfig")
 
-local schedulerEntry = nil
-local locked = false
-
 local viewAll = {} -- 全部已创建界面
-
--- 界面缓存
-local viewBuffer = {}
 
 local addView
 local openScale
 
 function init(dt)
-    locked = false
     
 end
 
@@ -86,7 +79,7 @@ end
 
 
 function addView(viewName, view, parent, openType)
-    Log.d("打开界面".. viewName .. ", " .. tostring(view))
+    Log.d("打开界面".. viewName)
     if viewAll[viewName] and not tolua.isnull(viewAll[viewName]) then
         Log.d("已存在界面".. viewName)
         closeView(viewName)
