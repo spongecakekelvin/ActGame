@@ -8,16 +8,21 @@ require("util/uiFactory")
 
 require("util/EventType")
 
-require("managers/TimerManager")
-TimerManager.start()
+require("managers/TimeManager")
+TimeManager.init()
+require("managers/DataManager")
+require("managers/AnimManager")
+AnimManager.init()
 require("managers/EventManager")
 require("managers/SceneManager")
 require("managers/ViewManager")
 require("managers/CtlManager")
 CtlManager.loadModules()
-require("managers/DataManager")
-require("managers/AnimManager")
 
+-- 测试
+local timerId = TimeManager.addTimer(function() Log.i("你好呀！~" .. math.random()) end, 1)
+TimeManager.addDelay(function() Log.i("===========  I AM NOT GOOD/!1") end, 3)
+TimeManager.addDelay(function() TimeManager.removeTimer(timerId) end, 6)
 
 
 

@@ -8,8 +8,6 @@ local antProblem
 
 function tClass:ctor()
     tClass.super.ctor(self)
-
-
 end
 
 
