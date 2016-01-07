@@ -3,16 +3,13 @@ module("Log", package.seeall)
 local gprint = gprint
 
 local function simpleFilename(name)
-    local index = string.find(name, "/")
-    while index do
-        name = string.sub(name, index+1, -1)
-        if name then
-           index = string.find(name, "/")
-        else
-            return ""
-        end
+    -- name = "src/manager/resManager/resManagerSub.lua"
+    local begPos, endPos = string.find(name, "%/%w*%.lua")
+    if begPos then
+        return string.sub(name, begPos + 1, endPos - 4)
+    else
+        return ""
     end
-    return name
 end
 
 function d(...)
@@ -22,7 +19,7 @@ function d(...)
 end
 
 function i(...)
-    local dbgInfo = debug.getinfo(3, "lS")
+    local dbgInfo = debug.getinfo(2, "lS")
     if dbgInfo and dbgInfo.source and dbgInfo.currentline then
         gprint(string.format("[\"%s\":%d]", simpleFilename(dbgInfo.source), dbgInfo.currentline), ...)
     else
@@ -41,6 +38,11 @@ end
 -- print    输出函数
 --------------------------------------
 function t(tab)
+    if not tab then
+        gprint("该tab为nil, 函数无法打印")
+        return
+    end
+    
     local str = ""
     local function traverseTable(tab, suojin)
         ---忽略指定字段
@@ -59,7 +61,7 @@ function t(tab)
                 if type(v) == "table" then
                     local pStr = type(i) == "string" and i.." = {" or "["..i.."]".." = {"
                     local suojinStr = ""
-                    for i = 1, suojin do suojinStr = suojinStr.."|   " end--增加缩进
+                    for i = 1, suojin do suojinStr = suojinStr.."    " end--增加缩进
                     gprint(suojinStr..pStr)
                     -- str = str .. "\n" .. suojinStr..pStr
                     traverseTable(v, suojin + 1)
@@ -77,7 +79,7 @@ function t(tab)
                     end
                     
                     local suojinStr = ""
-                    for i = 1, suojin do suojinStr = suojinStr.."|   " end
+                    for i = 1, suojin do suojinStr = suojinStr.."    " end
                     gprint(suojinStr..pStr)
                     -- str = str .. "\n" .. suojinStr..pStr
                 end
@@ -85,11 +87,7 @@ function t(tab)
         end
     end
 
-    if not tab then
-        gprint("该tab为nil, 函数无法打印")
-        return
-    end
-    Log.i()
+    Log.i() --输出文件名
     gprint(tostring(tab).." = {")
     traverseTable(tab, 1)
     gprint("}")

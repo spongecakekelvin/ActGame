@@ -151,3 +151,27 @@ function helper.fadeFromTo(node, time, from, to)
     node:runAction(action)
     return action
 end
+
+
+
+local spriteFrameCache = cc.SpriteFrameCache:getInstance()
+
+function helper.addPlist(plistPath, image)
+    if not plistPath then
+        Log.e("资源路径为空 plistPath = " .. plistPath)
+    end
+    if image then
+        spriteFrameCache:addSpriteFrames(plistPath, image)
+    else
+        spriteFrameCache:addSpriteFrames(plistPath)
+    end
+    gprint("添加资源+: " .. plistPath)
+end
+
+function helper.removePlist(plistPath)
+    spriteFrameCache:removeSpriteFramesFromFile(plistPath)
+    gprint("移除资源-: " .. plistPath)
+end
+
+
+

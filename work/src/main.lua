@@ -1,10 +1,5 @@
-local setting = {
-    viewRect = cc.rect(0, 0, 1136 * 0.8, 640 * 0.8),
-    resolutionSize = cc.size(1136, 640),
-    resolutionPolicy = cc.ResolutionPolicy.FIXED_WIDTH,
-    displayStats = true,
-}
- -- 打印函数
+ 
+-- 打印函数
 gprint = print
 -- print = function() end
 
@@ -20,12 +15,17 @@ require = function(path)
 end
 
 package.path = ";./?.lua;src/?.lua;work/src?.lua"
+-- package.path = ";./?.lua;src/?.lua;work/src?.lua"
 
 -- CC_USE_DEPRECATED_API = true
 require "cocos/init"
-
+require "setting"
 -- cc.FileUtils:getInstance():addSearchPath("src")
+cc.FileUtils:getInstance():addSearchPath("work/")
+cc.FileUtils:getInstance():addSearchPath("work/res/")
 -- cc.FileUtils:getInstance():addSearchPath("res")
+
+print(package.path)
 
 -- require "gameInit"
 
@@ -73,7 +73,7 @@ local function initDirector()
                                 setting.resolutionPolicy)
 
     --set FPS. the default value is 1.0/60 if you don't call this
-    director:setAnimationInterval(1.0 / 60)
+    director:setAnimationInterval(setting.fps)
 
     --turn on display FPS
     director:setDisplayStats(setting.displayStats)
@@ -92,8 +92,9 @@ end
 
 
 local function initGameScene()
+    cc.FileUtils:getInstance():addSearchPath("res")
     require ("managers/SceneManager")
-    SceneManager.runScene("game")
+    SceneManager.runScene("init")
 end
 
 

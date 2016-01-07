@@ -8,7 +8,9 @@
 local modename = "DataManager"
 local mt = {
     __index = function(tab, key) -- key是文件名
-        return require("data/" .. key)
+    	print("====== keyt = " .. key)
+    	require("data/" .. key)
+        return _G[key]
     end
 }
-_G[modename] = setmetatable(_G[modename] or {}, dataMeta)
+_G[modename] = setmetatable(_G[modename] or {}, mt)

@@ -26,36 +26,43 @@ function getScene(sceneName)
 	if not scene then
 		scene = cc.Scene:create()
 		scene:retain()
-
-		if initFunc[sceneName] then
-			initFunc[sceneName](scene)
-		end
 	end
-	SceneList[sceneName] = scene
 	return scene
 end
 
 
 function runScene(sceneName)
 	local scene = getScene(sceneName)
-    if cc.Director:getInstance():getRunningScene() then
+	local runningScene = cc.Director:getInstance():getRunningScene()
+    if runningScene then 
+    	-- todo: 切换场景前清空定时器、事件监听等内容
         cc.Director:getInstance():replaceScene(scene)
     else
         cc.Director:getInstance():runWithScene(scene)
     end
+
+    -- 调用对应的初始化函数 只一次
+	if not SceneList[sceneName] and initFunc[sceneName] then
+		SceneList[sceneName] = scene
+		initFunc[sceneName](scene)
+	end
 end
  
 
+
 initFunc["init"] = function(scene)
-    local view = require("SplashView").new()
-    scene:addChild(view)
+	require "GameInit"
+
+    -- local view = require("SplashView").new()
+    -- scene:addChild(view)
+
+    TimeManager.addDelay(function()
+    	SceneManager.runScene("game")
+	end, 0.5)
 end
 
 
 initFunc["game"] = function(scene)
-	require "GameInit"
-
-	-- local rootLayer = cc.Layer:create()
 	local rootLayer = ui.newLayer(cc.c4b(255, 255, 255, 255)) 
 
 	sceneLayer = cc.Layer:create()

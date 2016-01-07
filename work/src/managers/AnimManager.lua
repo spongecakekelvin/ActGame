@@ -15,16 +15,15 @@ function init()
 end
 
 
-function create(param)
-	local baseNode = cc.Sprite:create()
-	return baseNode
-end
-
 function addToLoopList(node)
-	loopList = table.insert(loopList, {node = node})
+	table.insert(loopList, {node = node})
 end
 
 -- 动画帧循环函数, 根据当前状态和下一帧状态执行
 function frameLoopFunc()
-
+	for i, v in ipairs(loopList) do
+		if v.node then
+			
+		end
+	end
 end

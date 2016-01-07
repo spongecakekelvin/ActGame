@@ -13,7 +13,7 @@ end
 
 function tClass:onEnter()
     tClass.super.onEnter(self)	
-    -- ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync("armature/robot.png", "armature/robot.plist", "armature/robot.xml", dataLoaded)
+    -- ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync("res/armature/robot.png", "res/armature/robot.plist", "res/armature/robot.xml", dataLoaded)
 
     -- local  proxy = cc.CCBProxy:create()
     -- local  node  = CCBReaderLoad("res/csb/MainScene.csb",proxy,HelloCocosBuilderLayer)
@@ -34,6 +34,13 @@ function tClass:onEnter()
     end)
     self:addChild(btn)
     ui.align(self, btn, 1, 0, nil, -100, 80)
+
+    local btn = ui.newButton("多边形", 1, function()
+        self:drawPolygon()
+    end)
+    self:addChild(btn)
+    ui.align(self, btn, 1, 0, nil, -100 * 2, 80)
+
 
     local hintLabel = ui.newLabel("（点击界面内区域切换动作）", ui.c3b.green, 20)
     ui.align(self, hintLabel, 0.5, 0, nil, 0, 40)
@@ -183,6 +190,21 @@ function antProblem(self)
     Log.i("minTime = " .. minTime)
 end
 
+local function getRandomPoint(num, width, height)
+    local points = {}
+    for i = 1, num do
+        points[i] = {math.random(width), math.random(height)}
+    end
+    return points
+end
+
+function tClass:drawPolygon()
+    helper.remove(self.polygon)
+
+    self.polygon = ui.newPolygon(getRandomPoint(5, 100, 100))
+    self:addChild(self.polygon)
+    -- ui.align(self, self.polyogn)
+end
 
 
 return tClass

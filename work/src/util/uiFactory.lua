@@ -23,10 +23,11 @@ function ui.newLabel(name, color, fontSize, dimensions)
 
     local fontSize = fontSize or ui.fontSize.def
     dimensions = dimensions or cc.size(0,0)
+    color = color or ui.c3b.white
 
     local label = cc.Label:createWithSystemFont(name, GameConfig.defaultFonts, fontSize, dimensions)
     -- label.setFontSize = label.setSystemFontSize
-    label:setColor(color or ui.c3b.white)
+    label:setColor(color)
     return label
 end
 
@@ -87,4 +88,67 @@ function ui.new9Spr(filename, size, capInsets)
         sprite:setPreferredSize(size)
     end
     return sprite
+end
+
+
+
+-- start --
+
+--------------------------------
+-- 创建并返回一个 PolygonShape （多边形）对象。
+-- @function [parent=#display] newPolygon
+-- @param table points 包含多边形每一个点坐标的表格对象
+-- @param number scale 缩放比例
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode)  DrawNode
+-- @see DrawNode
+
+
+--[[--
+
+创建并返回一个 PolygonShape （多边形）对象。
+
+~~~ lua
+
+local points = {
+    {10, 10},  -- point 1
+    {50, 50},  -- point 2
+    {100, 10}, -- point 3
+}
+local polygon = display.newPolygon(points)
+
+~~~
+
+]]
+-- end --
+
+function ui.newPolygon(points, params, drawNode)
+    params = params or {}
+    local scale = params.scale or 1.0
+    local borderWidth = params.borderWidth or 0.5
+    local fillColor = params.fillColor or cc.c4f(1, 1, 1, 0)
+    local borderColor = params.borderColor or cc.c4f(0, 0, 0, 1)
+
+    local pts = {}
+    for i, p in ipairs(points) do
+        pts[i] = {x = p[1] * scale, y = p[2] * scale}
+    end
+
+    drawNode = drawNode or cc.DrawNode:create()
+    drawNode:drawPolygon(pts, {
+        fillColor = fillColor,
+        borderWidth = borderWidth,
+        borderColor = borderColor
+    })
+
+    if drawNode then
+        function drawNode:setLineStipple()
+        end
+
+        function drawNode:setLineStippleEnabled()
+        end
+
+        function drawNode:setLineColor(color)
+        end
+    end
+    return drawNode
 end
