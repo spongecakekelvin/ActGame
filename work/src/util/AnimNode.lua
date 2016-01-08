@@ -21,15 +21,9 @@ function tClass:ctor(data)
 	-- self:setAnchorPoint(cc.p(0.5, 0.5))
 
 	self.model = AnimData.getModel(data.name)
-	-- self.model = AnimData.getModel(data.name, data.actionName, data.direction)
-	local frameName = AnimData.getCurFrameName(self.model)
-	local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
-	if frame then
-		self:setSpriteFrame(frame)
-	else
-		Log.i("Using unloaded spritgframe: ", frameName)
-	end
+	-- self:updateFrame()
 end
+
 
 -- name :frame name
 -- remainFrame : 下一帧间隔
@@ -40,6 +34,25 @@ function tClass:setFrameData()
 	-- curFrameName
 	-- maxIndex
 	-- direction
+end
+
+-- 每帧调用
+function tClass:updateFrame()
+	self.model.count = self.model.count + 1
+
+	-- self.model = AnimData.getModel(data.name, data.actionName, data.direction)
+	local frameName = AnimData.getCurFrameName(self.model)
+	if frameName then
+		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
+		if frame then
+			-- Log.i("\t", frameName)
+			self:setSpriteFrame(frame)
+		else
+			if frameName then
+				Log.i("Using unloaded spritgframe: ", frameName)
+			end
+		end
+	end
 end
 
 

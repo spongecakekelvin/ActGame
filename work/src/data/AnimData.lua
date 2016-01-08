@@ -27,9 +27,9 @@ end
 
 function initModelData(model, initActionName)
 	model.actionName = initActionName or "stand"
-	model.actionIndex = 1
-	model.direction = 2
 	model.frameIndex = 1
+	model.direction = model.direction or 2
+	model.count = 0
 	return model
 end
 
@@ -40,14 +40,18 @@ local function getActionName(model)
 end
 
 function getCurFrameName(model)
-	Log.t(model)
+	-- Log.t(model)
+	-- Log.i(model.actionName, model.frameIndex, model.count)
 	local config = model.config[getActionName(model)]
-	local curInfo = config[model.actionIndex]
-	if model.frameIndex > curInfo.remainFrame then
+	local curInfo = config[model.frameIndex]
+	if model.count > curInfo.remainFrame then
+
+		model.count = 0
+		
 		-- 单帧播放完
-		if model.actionIndex + 1 <= model.config.pngnum then
+		if model.frameIndex + 1 <= config.pngnum then
 			-- 下一帧
-			model.actionIndex = model.actionIndex + 1
+			model.frameIndex = model.frameIndex + 1
 			return getCurFrameName(model)
 		else
 			-- 动作全部帧播放完
