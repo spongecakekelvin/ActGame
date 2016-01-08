@@ -31,7 +31,7 @@ end
 function tClass:createElements()
 	-- body
 	local role = Role.new()
-	role:setPosition(340, 100)
+	role:setPosition(500, 100)
 	self:addChild(role)
 
 	self.elementList[#self.elementList + 1] = role

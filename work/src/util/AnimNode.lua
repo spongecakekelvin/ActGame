@@ -23,12 +23,11 @@ function tClass:ctor(data)
 	self.model = AnimData.getModel(data.name)
 	-- self.model = AnimData.getModel(data.name, data.actionName, data.direction)
 	local frameName = AnimData.getCurFrameName(self.model)
-	local frame = FrameCache:getSpriteFrame(frameName)
-	if farme then
-		Log.i("================= set spritgfame ...", frameName)
+	local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
+	if frame then
 		self:setSpriteFrame(frame)
 	else
-		Log.i(" not ================= set spritgfame ...", frameName)
+		Log.i("Using unloaded spritgframe: ", frameName)
 	end
 end
 
