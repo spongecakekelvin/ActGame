@@ -28,7 +28,7 @@ function tClass:ctor()
 end
 
 function tClass:onEnter()
-	AnimManager.addToLoopList(self.animSpr)
+	AnimManager.addToLoopList(self.animNode)
 end
 
 function tClass:onExit()
@@ -36,14 +36,20 @@ end
 
 
 function tClass:createAnim(data)
-	self.animSpr = AnimNode.new(data)
-	self:addChild(self.animSpr)
-	return self.animSpr
+	self.animNode = AnimNode.new(data)
+	self:addChild(self.animNode)
+	return self.animNode
 end
 
 
 function tClass:onLoop( ... )
 	Log.i("需要子类重写该方法 Element:onLoop()")
+end
+
+
+-- + attack(target, data)
+function tClass:attack()
+	self.animNode:changeAction("attack")
 end
 
 

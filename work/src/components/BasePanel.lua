@@ -116,7 +116,7 @@ end
 function tClass:addCloseBtn(closeImg)
     helper.remove(self.closeBtn)
 
-    local btn = ui.newButton(nil, closeImg or "res/common/btn_close.png", function() self:close() end)
+    local btn = ui.newButton(nil, function() self:close() end, closeImg or "res/common/btn_close.png")
     self.closeBtn = btn
     self:addChild(btn, 99)
     ui.align(self, btn, 1, 1, cc.p(0.5, 0.5), -17, -17)

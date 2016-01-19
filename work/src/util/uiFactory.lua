@@ -33,7 +33,11 @@ end
 
 
 -- style 在内部定义好了 按钮的资源路径
-function ui.newButton(name, imgPath, callback, size)
+-- name 按钮文字
+-- callback 点击回调(touchEnded才触发)
+-- size 不为nil时, imgPath可以为或者根据size拉伸
+--  
+function ui.newButton(name, callback, imgPath, size)
     imgPath = imgPath or 1
     if type(imgPath) == "number" then
         -- if imgPath == 1 then
@@ -41,7 +45,7 @@ function ui.newButton(name, imgPath, callback, size)
         -- end
     end
 
-    return ui.BaseButton.new(name, imgPath, callback, size)
+    return ui.BaseButton.new(name, callback, imgPath, size)
 end
 
 

@@ -14,6 +14,15 @@ function tClass:onEnter()
     
     self:createMap()
     self:createElements()
+
+    -- testing:
+    local btn = ui.newButton("攻击", function()
+    	for i, v in ipairs(self.elementList) do
+    		v:attack()
+    	end
+	end)
+	ui.addChild(self, btn, 400, 500)
+
 end
 
 function tClass:onExit()
@@ -36,6 +45,9 @@ function tClass:createElements()
 
 	self.elementList[#self.elementList + 1] = role
 end
+
+
+
 
 
 

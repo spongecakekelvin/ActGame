@@ -1,7 +1,7 @@
 -- 基础按钮类
 local tClass =  class("BaseButton", ui.BaseLayer)
 
-function tClass:ctor(name, imagePath, callback, size)
+function tClass:ctor(name, callback, imagePath, size)
     tClass.super.ctor(self)
     -- print("base button ctor")
     self:ignoreAnchorPointForPosition(false)

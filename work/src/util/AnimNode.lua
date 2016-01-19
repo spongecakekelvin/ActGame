@@ -6,47 +6,34 @@ end)
 local FrameCache = cc.SpriteFrameCache:getInstance()
 local AnimData = DataManager.AnimData
 
---[[
-self.mc = cc.Sprite:create()
-self.mc:setSpriteFrame(fc:getSpriteFrame("res/kimibb.png"))
-local frame = fc:getSpriteFrame(frameinfo.name)
-if frame then
-    self.mc:setSpriteFrame(frame)
-end
-self.mc:setFlippedX(self.isFlipped)
-]]-- 
-
 function tClass:ctor(data)
-	self:ignoreAnchorPointForPosition(false)
-	-- self:setAnchorPoint(cc.p(0.5, 0.5))
-
+	-- self:ignoreAnchorPointForPosition(false)
+	self:setAnchorPoint(cc.p(0.5, 0))
 	self.model = AnimData.getModel(data.name)
-	-- self:updateFrame()
 end
 
 
--- name :frame name
--- remainFrame : 下一帧间隔
--- bodyRect :受击框
--- attRect :攻击框
-function tClass:setFrameData()
-	-- curIndex
-	-- curFrameName
-	-- maxIndex
-	-- direction
+
+function tClass:changeAction(actionName)
+	Log.i("=== changeaction = " .. actionName)
+	self.model = AnimData.changeAction(self.model, actionName)
 end
+
 
 -- 每帧调用
+-- todo:
+-- bodyRect :受击框
+-- attRect :攻击框
 function tClass:updateFrame()
 	self.model.count = self.model.count + 1
 
-	-- self.model = AnimData.getModel(data.name, data.actionName, data.direction)
 	local frameName = AnimData.getCurFrameName(self.model)
 	if frameName then
 		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
 		if frame then
 			-- Log.i("\t", frameName)
 			self:setSpriteFrame(frame)
+			self:setPosition(AnimData.getCurFramePos(self.model))
 		else
 			if frameName then
 				Log.i("Using unloaded spritgframe: ", frameName)
