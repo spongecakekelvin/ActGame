@@ -17,10 +17,26 @@ end
 
 
 function tClass:onEnter()
+    -- 用于引导
+    if GameConfig.isInGuideMode and self.__cname then
+        local len = string.len(self.__cname)
+        if string.sub(self.__cname, len - 2, len) == "iew" then -- xxxview or xxxView
+            local label = ui.newLabel(self.__cname, ui.c3b.green, 22)
+            label:setLocalZOrder(100)
+            ui.addChild(self, label)
+            ui.align(self, label, math.random(), 1, cc.p(0.5, 1))
+            Effect.fadeInOut(label, -1, 0.2, 0.5, 1)
+
+            self._guide_registered = true
+        end
+    end
 end
 
 
 function tClass:onExit()
+    if self._guide_registered then
+        self._guide_registered = nil
+    end
 end
 
 

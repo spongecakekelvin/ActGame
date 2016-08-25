@@ -7,6 +7,7 @@ require("util/uiUtil")
 require("util/uiFactory")
 
 require("util/EventType")
+require("util/LinkNode")
 
 require("managers/TimeManager")
 TimeManager.init()
@@ -27,5 +28,4 @@ CtlManager.loadAll()
 -- TimeManager.addDelay(function() Log.i("===========  I AM NOT GOOD/!1") end, 3)
 -- TimeManager.addDelay(function() TimeManager.removeTimer(timerId) end, 6)
 
-
-
+require("util/Effect")

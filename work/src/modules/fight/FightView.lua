@@ -12,16 +12,38 @@ end
 function tClass:onEnter()
     tClass.super.onEnter(self)
     
-    self:createMap()
+    -- self:createMap()
     self:createElements()
 
     -- testing:
     local btn = ui.newButton("攻击", function()
     	for i, v in ipairs(self.elementList) do
     		v:attack()
+    		-- v:changeAction("attack")
     	end
 	end)
-	ui.addChild(self, btn, 400, 500)
+	ui.addChild(self, btn, 200, 500)
+	
+	local btn = ui.newButton("攻击2", function()
+    	for i, v in ipairs(self.elementList) do
+    		v:changeAction("attack1")
+    	end
+	end)
+	ui.addChild(self, btn, 340, 500)
+
+	local btn = ui.newButton("攻击3", function()
+    	for i, v in ipairs(self.elementList) do
+    		v:changeAction("attack2")
+    	end
+	end)
+	ui.addChild(self, btn, 480, 500)
+
+	local btn = ui.newButton("攻击3", function()
+    	for i, v in ipairs(self.elementList) do
+    		v:changeAction("attack3")
+    	end
+	end)
+	ui.addChild(self, btn, 620, 500)
 
 end
 

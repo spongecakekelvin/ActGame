@@ -63,7 +63,8 @@ end
 
 
 initFunc["game"] = function(scene)
-	local rootLayer = ui.newLayer(cc.c4b(255, 255, 255, 255)) 
+	-- local rootLayer = ui.newLayer()
+	local rootLayer = ui.newLayer(cc.c4b(255, 255, 255, 50))
 
 	sceneLayer = cc.Layer:create()
 	uiLayer = cc.Layer:create()

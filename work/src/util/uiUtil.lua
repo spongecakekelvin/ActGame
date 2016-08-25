@@ -100,3 +100,9 @@ ui.addChild = function(parent, child, x, y, ap, zOrder)
         parent:addChild(child)
     end
 end
+
+ui.removeNode = function(node)
+    if not tolua.isnull(node) then
+        node:removeFromParent()
+    end
+end

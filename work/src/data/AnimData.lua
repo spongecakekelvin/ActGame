@@ -22,7 +22,6 @@ function getModel(name)
 
 	local config = AnimConfig[name]
 	if config then
-		-- setmetatable(config, {__index = config})
 		setmetatable(model.config, {__index = config})
 	else
 		Log.e("没有动画配置 name = " .. tostring(data.name))
@@ -32,12 +31,14 @@ function getModel(name)
 end
 
 function initModelData(model, initActionName)
+	model.isPlaying = false -- 正在播放一套帧动作
 	model.actionName = initActionName or "stand"
 	model.frameIndex = 1
 	model.direction = model.direction or 2
 	model.count = 0
+	model.delayFrameNum = 0
 	------
-	-- 以下数据为nil时，需要重新赋值
+	-- 以下数据为nil时，需要重新赋值以便切换帧动画
 	------
 	model.actionConfig = nil -- 动作信息
 	model.frameConfig = nil -- 帧信息
@@ -51,8 +52,9 @@ local function getActionName(model)
 	
 end
 
-local function updateModel()
+local function getNextActionName()
 	local actionName = getActionName(model)
+	return actionName
 end
 
 
@@ -81,12 +83,20 @@ function getCurFrameName(model)
 			return getCurFrameName(model)
 		else
 			-- 动作全部帧播放完
-			initModelData(model, "stand")
+
+			if hasNextAction then
+				local actionName = getNextActionName()
+				changeAction(model, actionName)
+			else
+				initModelData(model, "stand")
+			end
+			return nil
 		end
 	else
 		return table.concat{model.name, "/", model.frameConfig.name, ".png"}
 	end
 end
+
 
 function getCurFramePos(model)
 	local x, y = 0, 0
@@ -99,12 +109,20 @@ end
 
 -- 用于切换动作，设置动作信息
 function changeAction(model, actionName)
+	if model.isPlaying then
+		Log.i("== action's playing cannot be changed ")
+		-- todo: 某些动作可以强制切换， 如技能
+		return model
+	end
+
+	model.isPlaying = true
 	model.actionName = actionName or "stand"
 	model.frameIndex = 1
 	model.direction = model.direction or 2
 	model.count = 0
+	model.delayFrameNum = 0
 	------
-	-- 以下数据为nil时，需要重新赋值
+	-- 以下数据为nil时，需要重新赋值以便切换帧动画
 	------
 	model.actionConfig = nil -- 动作信息
 	model.frameConfig = nil -- 帧信息

@@ -23,7 +23,7 @@ require "setting"
 -- cc.FileUtils:getInstance():addSearchPath("src")
 cc.FileUtils:getInstance():addSearchPath("work/")
 cc.FileUtils:getInstance():addSearchPath("work/res/")
--- cc.FileUtils:getInstance():addSearchPath("res")
+cc.FileUtils:getInstance():addSearchPath("res")
 
 print(package.path)
 
@@ -92,7 +92,6 @@ end
 
 
 local function initGameScene()
-    cc.FileUtils:getInstance():addSearchPath("res")
     require ("managers/SceneManager")
     SceneManager.runScene("init")
 end

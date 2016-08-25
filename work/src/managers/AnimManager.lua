@@ -23,6 +23,6 @@ end
 -- 动画帧循环函数, 根据当前状态和下一帧状态执行
 function frameLoopFunc()
 	for i, animNode in ipairs(loopList) do
-		animNode:updateFrame()
+		animNode:loop()
 	end
 end

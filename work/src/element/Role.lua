@@ -11,7 +11,7 @@ local tClass = class("Role", baseClass)
 
 function tClass:ctor(name, actionName, direction)
 	tClass.super.ctor(self)
-	self.elementType = ElementType.Role
+	-- self.elementType = ElementType.Role
 
 
 
@@ -21,8 +21,8 @@ function tClass:ctor(name, actionName, direction)
 	animData.actionName = actionName or "stand"
 	animData.direction = direction or 2
 	
-	-- self.animNode = 
-	self:createAnim(animData)
+	self.animNode = self:createAnim(animData)
+	self.animNode:drawBoxes(true)
 end
 
 function tClass:skill(target, data)

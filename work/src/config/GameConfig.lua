@@ -2,7 +2,7 @@
 GameConfig = GameConfig or {
 
 	isDebug = true,
-	
+	isInGuideMode = true, --引导调试
     
 --    animationInterval = 1/30,
 }

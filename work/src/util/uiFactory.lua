@@ -156,3 +156,69 @@ function ui.newPolygon(points, params, drawNode)
     end
     return drawNode
 end
+
+
+
+--------------------------------------------------
+---创建一个文本输入框
+---@param  size 输入框的size 
+---@param  image 输入框底图
+---@param color 输入文字的颜色
+---@param  lister :function(eventName, send)
+--                      if eventName == "ended" then
+--                      end 
+--                  end
+---@param  输入回调
+--------------------------------------------------
+function ui.newEditBox(
+    size, listener,  
+    images          --[[={normal = "#common/inputBj.png"} ]],
+    color           --[[= ui.color.white]], 
+    fontSize        --[[= ui.fontSize.def]],
+    placeHolder     --当editbox是空的时候，显示的label
+)
+    images = images or {}
+    local imageNormal = images["normal"] or "res/common/editBoxBg.png"
+    local imagePressed = images["pressed"] or "res/common/editBoxBg.png"
+    local imageDisabled = images["disabled"] or "res/common/editBoxBg.png"
+
+    local imageNormalSpr, imagePressedSpr, imageDisabledSpr
+    if imageNormal then
+        imageNormalSpr = ui.new9Spr(imageNormal)
+    end
+    if imagePressed then
+        imagePressedSpr = ui.new9Spr(imagePressed)
+    end
+    if imageDisabled then
+        imageDisabledSpr = ui.new9Spr(imageDisabled)
+    end
+    
+    local editbox = cc.EditBox:create(size, imageNormalSpr, imagePressedSpr, imageDisabledSpr)
+    editbox:setFontColor(color or ui.c3b.white)
+    editbox:setFont(GameConfig.defaultFonts, fontSize or ui.fontSize.def)
+    
+    if editbox then
+        if listener then
+            editbox:registerScriptEditBoxHandler(listener)
+        end
+        
+        if placeHolder then
+            editbox:setPlaceHolder(placeHolder)
+            editbox:setPlaceholderFontColor(color or ui.color.white)
+        end
+    end
+
+    return editbox
+end
+
+
+function ui.newRect(origin, destination, radius, color)
+    radius = radius or 1.0
+    color = color or cc.c4f(0,1,0,1)
+    local drawNode = cc.DrawNode:create()
+    drawNode:drawSegment(cc.p(origin.x, origin.y), cc.p(origin.x, destination.y), radius, color)
+    drawNode:drawSegment(cc.p(origin.x, destination.y), cc.p(destination.x, destination.y), radius, color)
+    drawNode:drawSegment(cc.p(destination.x, destination.y), cc.p(destination.x, origin.y), radius, color)
+    drawNode:drawSegment(cc.p(destination.x, origin.y), cc.p(origin.x, origin.y), radius, color)
+    return drawNode
+end

@@ -29,22 +29,47 @@ function tClass:onEnter()
 	-- 	dataLoaded(self, percent)
 	-- end)
 
-    local btn = ui.newButton("蚂蚁爬木", function()
-        antProblem(self)
+    -- local btn = ui.newButton("蚂蚁爬木", function()
+    --     antProblem(self)
+    -- end)
+    -- self:addChild(btn)
+    -- ui.align(self, btn, 1, 0, nil, -100, 80)
+    local btn = ui.newButton("TEST", function()
+        require("modules/test/test_".. self.editBox:getText())()
     end)
     self:addChild(btn)
-    ui.align(self, btn, 1, 0, nil, -100, 80)
+    ui.align(self, btn, 1, 0, nil, -100*3, 80)
 
-    local btn = ui.newButton("多边形", function()
-        self:drawPolygon()
+    -- local btn = ui.newButton("多边形", function()
+    --     self:drawPolygon()
+    -- end)
+    -- self:addChild(btn)
+    -- ui.align(self, btn, 1, 0, nil, -100 * 2, 80)
+
+    -- local btn = ui.newButton("多边形", function()
+    --     self:testLinkNode()
+    -- end)
+    -- self:addChild(btn)
+    -- ui.align(self, btn, 1, 0, nil, -100 * 3, 80)
+
+
+    self.editBox = ui.newEditBox(cc.size(150,48), function(strEventName, pSender)
+        local edit = tolua.cast(pSender,"cc.EditBox")
+        local text = edit:getText()
+        if strEventName == "return" then
+            edit:setText(text)
+        end
     end)
-    self:addChild(btn)
-    ui.align(self, btn, 1, 0, nil, -100 * 2, 80)
+    self.editBox:setPlaceHolder("test mod name")
+    self.editBox:setText("metatable")
+    ui.align(self, self.editBox, 0.25, 0, nil, 0, 80)
+    self:addChild(self.editBox)
 
 
     local hintLabel = ui.newLabel("（点击界面内区域切换动作）", ui.c3b.green, 20)
     ui.align(self, hintLabel, 0.5, 0, nil, 0, 40)
     self:addChild(hintLabel)
+
 end
 
 function tClass:onExit()
@@ -206,5 +231,17 @@ function tClass:drawPolygon()
     -- ui.align(self, self.polyogn)
 end
 
+
+function tClass:testLinkNode()
+    self.node = LinkNode.new("parent")
+    local opType = 0
+    for i = 1, 10 do
+        opType = math.random(10)
+        if opType % 2 == 0 then
+
+        else
+        end
+    end
+end
 
 return tClass
