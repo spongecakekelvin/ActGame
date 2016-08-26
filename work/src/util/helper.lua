@@ -174,4 +174,18 @@ function helper.removePlist(plistPath)
 end
 
 
-
+function helper.aabb(src, dest)
+    local min_x, max_x
+    if dest[1] > dest[3] then
+        min_x = dest[3]
+        max_x = dest[1]
+    else
+        min_x = dest[1]
+        max_x = dest[3]
+    end
+    return not(
+        (src[1] > max_x) or
+        (src[3] < min_x) or
+        (src[2] > dest[4]) or
+        (src[4] < dest[2]))
+end

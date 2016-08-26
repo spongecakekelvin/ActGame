@@ -10,17 +10,18 @@ local initModelData
 
 ]] --
 
-function getModel(name)
-	assert((type(name) == "string"), "in AnimData.getModel(name): param 'name' has wrong type " .. type(name) .. " (string expected) !")
+function getModel(data)
+	assert((type(data) == "table"), "in AnimData.getModel(data): param 'data' has wrong type " .. type(name) .. " (string expected) !")
 
 	local model = {}
 	-- init 
-	model.name = name
+	model.name = data.name
+	model.direction = data.direction
 	model = initModelData(model)	
 
 	model.config = {}
 
-	local config = AnimConfig[name]
+	local config = AnimConfig[data.name]
 	if config then
 		setmetatable(model.config, {__index = config})
 	else
@@ -48,7 +49,9 @@ end
 
 local function getActionName(model)
 	-- return "stand_d2"
-	return table.concat{model.actionName, "_d", model.direction}
+	Log.d("=== " .. model.actionName .. "_d2")
+	return model.actionName .. "_d2"
+	-- return table.concat{model.actionName, "_d", model.direction}
 	
 end
 
@@ -101,7 +104,8 @@ end
 function getCurFramePos(model)
 	local x, y = 0, 0
 	if model.frameConfig then
-		x, y = model.frameConfig.x, model.frameConfig.y
+		x = model.direction == 2 and model.frameConfig.x or -model.frameConfig.x
+		y = model.frameConfig.y
 	end
 	return x, y
 end

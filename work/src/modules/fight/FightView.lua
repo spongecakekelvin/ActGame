@@ -61,11 +61,19 @@ end
 
 function tClass:createElements()
 	-- body
-	local role = Role.new()
+	local role = Role.new({}, {id=1})
+	role:setPosition(300, 100)
+	self:addChild(role)
+	table.insert(self.elementList, role)
+	self.role1 = role
+
+	local role = Role.new({direction = 6}, {id=2})
 	role:setPosition(500, 100)
 	self:addChild(role)
+	-- table.insert(self.elementList, role)
+	self.role2 = role
 
-	self.elementList[#self.elementList + 1] = role
+	self.role1:addEnemys{self.role2}
 end
 
 

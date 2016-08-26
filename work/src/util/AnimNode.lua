@@ -6,21 +6,24 @@ local SpriteFrameCache = cc.SpriteFrameCache:getInstance()
 local AnimData = DataManager.AnimData
 local SkillData = DataManager.SkillData
 
-local boxOrder = 1
+
+--[[
+
+]]--
 
 
 function tClass:ctor(data, element)
 	-- self:ignoreAnchorPointForPosition(false)
-	self:setAnchorPoint(cc.p(0.5, 0))
-	self.model = AnimData.getModel(data.name)
+	self._ap = cc.p(0.5, 0)
+	self:setAnchorPoint(self._ap)
+	self.model = AnimData.getModel(data)
 	self.element = element
-	self.drawboxes = false
+
+	self._lastDirection = nil
+	self:changeDirection(self.model.direction)
 end
 
 
-function tClass:drawBoxes(state)
-	self.drawboxes = state
-end
 
 
 
@@ -87,33 +90,30 @@ function tClass:updateFrame()
 	if frameName then
 		local frame = SpriteFrameCache:getSpriteFrame(frameName)
 		if frame then
-			-- Log.i("\t", frameName)
+			-- Log.i("\t", frameName, AnimData.getCurFramePos(self.model))
 			self:setSpriteFrame(frame)
 			self:setPosition(AnimData.getCurFramePos(self.model))
+			self:setColor(ui.c3b.red)
 			
-			self:updateDrawNode()
-			
+			self.element:onFrameUpdate(self.model)
 		else
 			Log.i("Using unloaded spritgframe: ", frameName)
 		end
 	end
 end
 
-
-function tClass:updateDrawNode()
-	ui.removeNode(self.drawNode)
-	if self.drawboxes and self.model.frameConfig then
-		local rect = self.model.frameConfig.bodyRect
-		-- Log.t(rect)
-		if rect then
-			-- Log.d("===============  drawnode")
-			-- self.drawNode = ui.newLabel(table.concat(rect,"|"))
-			-- self.element:addChild(self.drawNode, boxOrder)
-			self.drawNode = ui.newRect(cc.p(0, 0), cc.p(rect[3] - rect[1], rect[4] - rect[2]), 2)
-			self.element:addChild(self.drawNode, boxOrder)
-		end               
-	end
+function tClass:isForward()
+	return (self.model.direction == 2)
 end
+
+function tClass:changeDirection(dir)
+	if (self._lastDirection and self._lastDirection == dir) or (not dir) then
+		return
+	end
+	self._lastDirection = dir
+	self:setFlippedX(not self:isForward()) --2为右（正）方向
+end
+
 
 function tClass:updateEffect()
 	-- if true or stateTag == "hurt" then

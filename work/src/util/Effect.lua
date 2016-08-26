@@ -1,22 +1,22 @@
 module("Effect", package.seeall)
 
+HURT_TAG = 10001
 function hurt(animNode)
-	local sp = SimpleAnim.getAnimSp(animNode._bodySp)
-	if animNode:getActionByTag(tag) then
-		-- gprint("=============setColor return ")
+	local sp = animNode
+	if animNode:getActionByTag(HURT_TAG) then
 		return
 	end	
 	
 	local actions = {
-		cc.CallFunc:create(function() sp:setColor(ui.color.red) end),
-		cc.DelayTime:create(time or 0.3),
+		cc.CallFunc:create(function() sp:setColor(ui.c3b.red) end),
+		cc.DelayTime:create(1),
 		cc.CallFunc:create(function() 
-			sp:setColor(ui.color.pureWhite) 
-			animNode:stopActionByTag(tag)
+			sp:setColor(ui.c3b.white) 
+			animNode:stopActionByTag(HURT_TAG)
 		end)
 	}
 	local action = cc.Sequence:create(actions)
-	action:setTag(tag)
+	action:setTag(HURT_TAG)
 	animNode:runAction(action)
 end
 

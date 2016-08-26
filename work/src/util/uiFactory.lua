@@ -5,16 +5,16 @@
 ui = ui or {}
 
 function ui.newLayer(c4b, contentSize)
-    local tLayer
+    local layer
     if c4b then
-        tLayer = cc.LayerColor:create(c4b)
+        layer = cc.LayerColor:create(c4b)
     else
-        tLayer = cc.Layer:create()
+        layer = cc.Layer:create()
     end
     if contentSize then
         layer:setContentSize(contentSize)
     end
-    return tLayer
+    return layer
 end
 
 
@@ -214,7 +214,7 @@ end
 
 function ui.newRect(origin, destination, radius, color)
     radius = radius or 1.0
-    color = color or cc.c4f(0,1,0,1)
+    color = color or ui.c4f.green
     local drawNode = cc.DrawNode:create()
     drawNode:drawSegment(cc.p(origin.x, origin.y), cc.p(origin.x, destination.y), radius, color)
     drawNode:drawSegment(cc.p(origin.x, destination.y), cc.p(destination.x, destination.y), radius, color)

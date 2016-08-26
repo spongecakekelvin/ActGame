@@ -19,7 +19,7 @@ function d(...)
 end
 
 function i(...)
-    local dbgInfo = debug.getinfo(2, "lS")
+    local dbgInfo = debug.getinfo(3, "lS")
     if dbgInfo and dbgInfo.source and dbgInfo.currentline then
         gprint(string.format("[\"%s\":%d]", simpleFilename(dbgInfo.source), dbgInfo.currentline), ...)
     else
@@ -37,7 +37,7 @@ end
 --  tab     要打印的table
 -- print    输出函数
 --------------------------------------
-function t(tab)
+function t(tab, msg)
     if not tab then
         gprint("该tab为nil, 函数无法打印")
         return
@@ -91,4 +91,8 @@ function t(tab)
     gprint(tostring(tab).." = {")
     traverseTable(tab, 1)
     gprint("}")
+
+    if msg then
+        Log.i(msg)
+    end
 end

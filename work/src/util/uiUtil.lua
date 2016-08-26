@@ -36,6 +36,12 @@ ui.c4b = ui.c4b or {
     ["white"] = cc.c4b(255, 255, 255, 255),
 }
 
+ui.c4f = ui.c4f or {
+    ['green'] = cc.c4f(0,1,0,1),
+    ['red'] = cc.c4f(1,0,0,1),
+    ['blue'] = cc.c4f(0,0,1,1),
+}
+
 ui.fontSize = ui.fontSize or {
     def = 20,
 }
