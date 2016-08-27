@@ -7,7 +7,7 @@ CtlManager 访问Controller, 需要配置路径	CtlManager.mainUI:updateView ()
 DataMagaer 访问src/data/ 目录下的data文件  DataManager.MainUIData.getXXX()
 
 2、ViewManager 界面管理器  
-openView 提供接口负责界面打开统一出题
+openView 提供接口负责界面打开统一逻辑
 保存界面的实例
 
 二、mvc
@@ -33,5 +33,32 @@ skill是多组动作
 6-----2
  5/|\3
    4
+
+
+
+8.27 todo:
+tech point:
+组合的方式 角色: 技能-血量-飘字-数值-ai-动作队列Queue
+1)continuous attack
+2)walking
+3) attack box\ hit box\ collision box
+4)
+
+受力抛物线 
+连招
+行走跳跃
+控制面板
+数值系统  -- 受伤累加破坏值 累加到一定量会被击飞
+技能系统
+地图xyz
+网络局域网对战
+AI FSM
+
+并发的表现：
+动画表现
+物理表现(攻击框受击框)
+
+
+
 ---------------------------------------------
 ]]--

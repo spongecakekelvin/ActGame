@@ -93,8 +93,7 @@ function tClass:updateFrame()
 			-- Log.i("\t", frameName, AnimData.getCurFramePos(self.model))
 			self:setSpriteFrame(frame)
 			self:setPosition(AnimData.getCurFramePos(self.model))
-			self:setColor(ui.c3b.red)
-			
+
 			self.element:onFrameUpdate(self.model)
 		else
 			Log.i("Using unloaded spritgframe: ", frameName)

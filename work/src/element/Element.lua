@@ -123,9 +123,12 @@ end
 
 -- + attack(target, data)
 function tClass:attack()
-	self._animNode:changeAction("attack")
+	self:changeAction("attack")
 end
 
+function tClass:hurt()
+	self:changeAction("hurt")
+end
 
 function tClass:skill(sid)
 	

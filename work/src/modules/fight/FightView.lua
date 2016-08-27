@@ -19,7 +19,6 @@ function tClass:onEnter()
     local btn = ui.newButton("攻击", function()
     	for i, v in ipairs(self.elementList) do
     		v:attack()
-    		-- v:changeAction("attack")
     	end
 	end)
 	ui.addChild(self, btn, 200, 500)
@@ -38,9 +37,9 @@ function tClass:onEnter()
 	end)
 	ui.addChild(self, btn, 480, 500)
 
-	local btn = ui.newButton("攻击3", function()
+	local btn = ui.newButton("走动", function()
     	for i, v in ipairs(self.elementList) do
-    		v:changeAction("attack3")
+    		v:changeAction("walk")
     	end
 	end)
 	ui.addChild(self, btn, 620, 500)
@@ -67,7 +66,7 @@ function tClass:createElements()
 	table.insert(self.elementList, role)
 	self.role1 = role
 
-	local role = Role.new({direction = 6}, {id=2})
+	local role = Role.new({name=12100, direction = 6}, {id=2})
 	role:setPosition(500, 100)
 	self:addChild(role)
 	-- table.insert(self.elementList, role)

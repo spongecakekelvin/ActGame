@@ -1,27 +1,25 @@
 module("Effect", package.seeall)
 
 HURT_TAG = 10001
-function hurt(animNode)
-	local sp = animNode
-	if animNode:getActionByTag(HURT_TAG) then
-		return
-	end	
-	
-	local actions = {
-		cc.CallFunc:create(function() sp:setColor(ui.c3b.red) end),
-		cc.DelayTime:create(1),
-		cc.CallFunc:create(function() 
-			sp:setColor(ui.c3b.white) 
-			animNode:stopActionByTag(HURT_TAG)
-		end)
-	}
-	local action = cc.Sequence:create(actions)
+-- for api ":setColor(...)", pure black sprite doesn't work
+function hurt(sp, time)
+    time = time or 0.3
+    sp:setColor(ui.c3b.red)
+	sp:stopActionByTag(HURT_TAG)
+	local action = cc.Sequence:create{
+        cc.DelayTime:create(time),
+        cc.CallFunc:create(function() 
+            sp:setColor(ui.c3b.white) 
+            sp:stopActionByTag(HURT_TAG)
+        end)
+    }
 	action:setTag(HURT_TAG)
-	animNode:runAction(action)
+	sp:runAction(action)
 end
 
 
 -- 淡入淡出的闪烁效果
+-- e.g. -- Effect.fadeInOut(v._animNode, -1, 0.2, 0.5, 1)
 function fadeInOut(node, times, inTime, outTime, delayTime)
     inTime = inTime or 1
     outTime = outTime or inTime

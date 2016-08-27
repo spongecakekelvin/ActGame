@@ -12,6 +12,9 @@ local tClass = class("Role", baseClass)
 - onFrameUpdate() -- update
 - doAttack()
 
+memeber:
+- _animNode
+
 ]]--
 
 
@@ -53,7 +56,10 @@ function tClass:onFrameUpdate(model)
 end
 
 function tClass:onFrameLoop()
-	self:doAttack()
+	local targets = self:checkCollision()
+	if targets then
+		self:doAttack(targets)
+	end
 end
 
 function tClass:addEnemys(list)
@@ -64,24 +70,34 @@ function tClass:addEnemys(list)
 	end
 end
 
-function tClass:doAttack()
+function tClass:checkCollision()
 	if tolua.isnull(self._attBox) or not self._attBox._rect then
 		return
 	end
 	local rect = self._attBox._rect
-	local targetElements = {}
+	local targetElements = nil
 	for i, v in ipairs(self._enemys) do
 		if v._hitBox and aabb(rect, v._hitBox._rect) then
 			Log.d("aabb succcccccc!!!! Role".. self._property.id.. " attacks Role".. v._property.id)
+			if not targetElements then
+				targetElements = {}
+			end
 			table.insert(targetElements, v)
 		end
 	end
-	for i, v in ipairs(targetElements) do
-		Effect.hurt(v._animNode) -- bug useless, anything to do with black image resource?
-		Effect.fadeInOut(v._animNode, -1, 0.2, 0.5, 1)
+	return targetElements
+end
+
+function tClass:doAttack(targets)
+	for i, v in ipairs(targets) do
+		v:hurt()
 	end
 end
 
+function tClass:hurt()
+	self:changeAction("hurt")
+	Effect.hurt(self._animNode) -- bug useless, anything to do with black image resource? Yes
+end
 
 
 return tClass

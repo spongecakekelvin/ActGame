@@ -7,6 +7,7 @@ module("ResManager", package.seeall)
 -- 更大的资源放前面
 local resMap = {
     "res/plist/jianshi.plist",
+    "res/plist/12100.plist",
 }
 
 -- 加载资源
