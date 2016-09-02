@@ -36,6 +36,7 @@ function tClass:ctor()
 	self:addChild(layer)
 
 	self._animData = self._animData or {}
+	Log.t(self._animData, "==== anim data  =======" .. self._animData.direction)
 	self._animNode = self:createAnim(self._animData)
 end
 
@@ -107,12 +108,15 @@ function tClass:changeDirection(dir)
 end
 
 function tClass:addState(data)
-	LinkNode.new(data)
-	self.stateLinkNode:addNext()
+	self.stateLinkNode:addNext(LinkNode.new(data))
 end
 
 function tClass:removeState()
 	return self.stateLinkNode:removeNext()
+end
+
+function tClass:getNextState()
+	return self.stateLinkNode:getNext()
 end
 
 -- 强制切换动作的状态

@@ -17,26 +17,28 @@ memeber:
 
 ]]--
 
-
+local MOVE_OFFSET_X = MOVE_OFFSET_X
+local MOVE_OFFSET_Y = MOVE_OFFSET_Y
 local aabb = helper.aabb
 
 local defaultData = {
 	id = 0,
 	name = "jianshi",
 	actionName = "stand",
-	direction = 2,
+	direction = DIR.right,
 	test_boxes = true,
 }
 
 function tClass:ctor(animData, property)
-	-- self.elementType = ElementType.Role
-
 	self._animData = setmetatable(animData or {}, {__index = defaultData}) -- 需在父类初始化前赋值
 	tClass.super.ctor(self)
 
 	self._property = setmetatable(property or {}, {__index = defaultData}) -- hp mp etc.
 
 	self._enemys = {}
+
+	self.walkFrameCallback = nil
+	self.nextActions = {"stand"}
 end
 
 function tClass:skill(target, data)
@@ -45,14 +47,72 @@ end
 -- function tClass:attack(target, data)
 -- end
 
-function tClass:stand()
+function tClass:isStand()
+	return ("stand" == self._animNode.model.actionName)
 end
 
-function tClass:walk(data)
+function tClass:stand()
+	self.route = nil
+	self.walkFrameCallback = nil
+	self.nextActions = {"stand"}
+end
+
+function tClass:getRoute(destPos)
+	local originx, originy = self:getPosition()
+	local route = {}
+	local x = originx
+	while true do
+		x = x + MOVE_OFFSET_X
+		if x >= destPos.x then
+			break
+		end
+		route[#route + 1] = {x = x, y = originy}
+	end
+
+	if x > destPos.x and x < destPos.x + MOVE_OFFSET_X then
+		route[#route + 1] = {x = destPos.x, y = originy}
+	end
+	return route
+end
+
+function tClass:walk(destPos)
+	if destPos.x < 0 or destPos.y > 1136 then
+		Log.d("walk 超过边界")
+		return
+	end
+	self:changeAction("walk")
+	self.nextActions = {"walk"}
+	self.route = self:getRoute(destPos)
+	Log.t(self.route, "=== route it is ===")
+	if #self.route > 0 then
+		self.routeIndex = 1
+		self.walkFrameCallback = function(self)
+			if not self.route then
+				return
+			end
+			if self.route[self.routIndex] then
+				self:setPosition(self.route[self.routIndex])
+				self.routIndex = self.routIndex + 1
+			else
+				self.walkFrameCallback = nil
+				self:changeAction("stand")
+				Log.d("=== not route found, index = ", self.routIndex)
+			end
+		end
+	end
+end
+
+function tClass:walkOffset(offsetPos)
+	local originPos = cc.p(self:getPosition())
+	Log.t(offsetPos)
+	self:walk(cc.p(offsetPos.x + originPos.x, originPos.y))
 end
 
 function tClass:onFrameUpdate(model)
 	self:updateDrawNode(model)
+	if self.walkFrameCallback then
+		self.walkFrameCallback(self)
+	end
 end
 
 function tClass:onFrameLoop()

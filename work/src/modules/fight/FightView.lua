@@ -1,6 +1,7 @@
 -- GameView.lua
 local tClass =  class("FightView", ui.BaseLayer)
 
+local AnimData = DataManager.AnimData
 local Role = require "element/Role"
 
 function tClass:ctor()
@@ -65,14 +66,16 @@ function tClass:createElements()
 	self:addChild(role)
 	table.insert(self.elementList, role)
 	self.role1 = role
+	ElementManager.myRole = role
 
-	local role = Role.new({name=12100, direction = 6}, {id=2})
-	role:setPosition(500, 100)
-	self:addChild(role)
-	-- table.insert(self.elementList, role)
-	self.role2 = role
+	-- local role = Role.new({name=12100, direction = DIR.left}, {id=2})
+	-- -- local role = Role.new({direction = 6}, {id=2})
+	-- role:setPosition(500, 100)
+	-- self:addChild(role)
+	-- -- table.insert(self.elementList, role)
+	-- self.role2 = role
 
-	self.role1:addEnemys{self.role2}
+	-- self.role1:addEnemys{self.role2}
 end
 
 

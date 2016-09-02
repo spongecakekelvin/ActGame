@@ -86,13 +86,16 @@ function tClass:updateFrame()
 	
 	self.model.count = self.model.count + 1
 
-	local frameName = AnimData.getCurFrameName(self.model)
+	local frameName = AnimData.getCurFrameName(self.model, self.element.nextActions[1])
 	if frameName then
 		local frame = SpriteFrameCache:getSpriteFrame(frameName)
 		if frame then
 			-- Log.i("\t", frameName, AnimData.getCurFramePos(self.model))
 			self:setSpriteFrame(frame)
 			self:setPosition(AnimData.getCurFramePos(self.model))
+			-- self:setBlendFunc(gl.SRC_ALPHA, gl.ONE) -- 目标颜色
+			-- self:setBlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)-- 默认这样
+			
 
 			self.element:onFrameUpdate(self.model)
 		else
@@ -102,7 +105,7 @@ function tClass:updateFrame()
 end
 
 function tClass:isForward()
-	return (self.model.direction == 2)
+	return (self.model.direction == DIR.right)
 end
 
 function tClass:changeDirection(dir)
@@ -110,6 +113,7 @@ function tClass:changeDirection(dir)
 		return
 	end
 	self._lastDirection = dir
+	Log.d("== self:setFlippedX(not self:isForward())|", (not self:isForward()), self.model.direction, DIR.right)
 	self:setFlippedX(not self:isForward()) --2为右（正）方向
 end
 

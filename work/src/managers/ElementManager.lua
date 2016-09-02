@@ -6,6 +6,7 @@ module("ElementManager", package.seeall)
 local timerId = nil
 local loopList = {}
 local frameLoopFunc
+myRole = nil
 
 function init()
 	if timerId then

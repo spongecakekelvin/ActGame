@@ -26,3 +26,7 @@ function LinkNode:removeNext()
 		return nextNode
 	end
 end
+
+function LinkNode:getNext()
+	return self.next
+end

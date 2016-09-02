@@ -35,7 +35,7 @@ function initModelData(model, initActionName)
 	model.isPlaying = false -- 正在播放一套帧动作
 	model.actionName = initActionName or "stand"
 	model.frameIndex = 1
-	model.direction = model.direction or 2
+	model.direction = model.direction or DIR.right
 	model.count = 0
 	model.delayFrameNum = 0
 	------
@@ -49,19 +49,13 @@ end
 
 local function getActionName(model)
 	-- return "stand_d2"
-	Log.d("=== " .. model.actionName .. "_d2")
+	-- Log.d("=== " .. model.actionName .. "_d2")
 	return model.actionName .. "_d2"
 	-- return table.concat{model.actionName, "_d", model.direction}
 	
 end
 
-local function getNextActionName()
-	local actionName = getActionName(model)
-	return actionName
-end
-
-
-function getCurFrameName(model)
+function getCurFrameName(model, nextActionName)
 	-- Log.t(model)
 	-- Log.i(model.actionName, model.frameIndex, model.count)
 
@@ -86,13 +80,7 @@ function getCurFrameName(model)
 			return getCurFrameName(model)
 		else
 			-- 动作全部帧播放完
-
-			if hasNextAction then
-				local actionName = getNextActionName()
-				changeAction(model, actionName)
-			else
-				initModelData(model, "stand")
-			end
+			initModelData(model, nextActionName or "stand")
 			return nil
 		end
 	else
@@ -104,7 +92,7 @@ end
 function getCurFramePos(model)
 	local x, y = 0, 0
 	if model.frameConfig then
-		x = model.direction == 2 and model.frameConfig.x or -model.frameConfig.x
+		x = model.direction == DIR.right and model.frameConfig.x or -model.frameConfig.x
 		y = model.frameConfig.y
 	end
 	return x, y
@@ -122,7 +110,7 @@ function changeAction(model, actionName)
 	model.isPlaying = true
 	model.actionName = actionName or "stand"
 	model.frameIndex = 1
-	model.direction = model.direction or 2
+	model.direction = model.direction or DIR.right
 	model.count = 0
 	model.delayFrameNum = 0
 	------
@@ -132,4 +120,9 @@ function changeAction(model, actionName)
 	model.frameConfig = nil -- 帧信息
 
 	return model
+end
+
+
+function getDirection(originPos, destPos)
+	return destPos.x - originPos.x > 0 and DIR.right or DIR.left
 end

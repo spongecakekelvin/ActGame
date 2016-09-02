@@ -6,3 +6,4 @@ EventTypeName = EventTypeName or {
 }
 
 EventType = EventType or helper.reverseTable(EventTypeName)
+--- e.g. EventManager.addListener(EventType.game_enter, self.openView, self)
