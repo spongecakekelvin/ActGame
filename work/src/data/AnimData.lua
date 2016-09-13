@@ -49,7 +49,7 @@ end
 
 local function getActionName(model)
 	-- return "stand_d2"
-	-- Log.d("=== " .. model.actionName .. "_d2")
+	Log.d("=== ", model.actionName, "_d2")
 	return model.actionName .. "_d2"
 	-- return table.concat{model.actionName, "_d", model.direction}
 	
@@ -106,13 +106,19 @@ function changeAction(model, actionName)
 		-- todo: 某些动作可以强制切换， 如技能
 		return model
 	end
+	
+	model.frameIndex = 1
+	model.count = 0
+	model.delayFrameNum = 0
+	
+	if model.actionName == actionName then
+		Log.i("==== same actionName return")
+		return model
+	end
 
 	model.isPlaying = true
 	model.actionName = actionName or "stand"
-	model.frameIndex = 1
 	model.direction = model.direction or DIR.right
-	model.count = 0
-	model.delayFrameNum = 0
 	------
 	-- 以下数据为nil时，需要重新赋值以便切换帧动画
 	------

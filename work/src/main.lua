@@ -19,7 +19,8 @@ package.path = ";./?.lua;src/?.lua;work/src?.lua"
 
 -- CC_USE_DEPRECATED_API = true
 require "cocos/init"
-require "setting"
+-- require "setting"
+require "config/GameConfig"
 -- cc.FileUtils:getInstance():addSearchPath("src")
 cc.FileUtils:getInstance():addSearchPath("work/")
 cc.FileUtils:getInstance():addSearchPath("work/res/")
@@ -49,7 +50,7 @@ local function printStat()
     local origin = director:getVisibleOrigin()
 
     print("============")
-    print("设计分辨率: " .. setting.resolutionSize.width .. " " .. setting.resolutionSize.height)
+    print("设计分辨率: " .. GameConfig.resolutionSize.width .. " " .. GameConfig.resolutionSize.height)
     print("实际分辨率: " .. frameSize.width .. " " .. frameSize.height)
     print("设计分辨率: " .. winSize.width .. " " .. winSize.height)
     print("winSizeInPixels: " .. winSizeInPixels.width .. " " .. winSizeInPixels.height)
@@ -64,19 +65,19 @@ local function initDirector()
     local director = cc.Director:getInstance()
     local glview = director:getOpenGLView()
     if nil == glview then
-        glview = cc.GLViewImpl:createWithRect("ActGame", setting.viewRect)
+        glview = cc.GLViewImpl:createWithRect("ActGame", GameConfig.viewRect)
         director:setOpenGLView(glview)
     end
 
-    glview:setDesignResolutionSize(setting.resolutionSize.width, 
-                                setting.resolutionSize.height,
-                                setting.resolutionPolicy)
+    glview:setDesignResolutionSize(GameConfig.resolutionSize.width, 
+                                GameConfig.resolutionSize.height,
+                                GameConfig.resolutionPolicy)
 
     --set FPS. the default value is 1.0/60 if you don't call this
-    director:setAnimationInterval(setting.fps)
+    director:setAnimationInterval(GameConfig.fps)
 
     --turn on display FPS
-    director:setDisplayStats(setting.displayStats)
+    director:setDisplayStats(GameConfig.displayStats)
     cc.Texture2D:PVRImagesHavePremultipliedAlpha(true)
 
     local visibleSize = cc.Director:getInstance():getVisibleSize()

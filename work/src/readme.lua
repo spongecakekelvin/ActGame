@@ -69,5 +69,17 @@ AI FSM
 todo: 控制全局变量的访问和赋值
 setmetatable(_G , {__index =function()end})
 
+
+-- 控制角色动作
+输入keydowm 保存按键按下状态 {['d'] == true}
+keydowm 取消 {}
+
+onFrameUpdate 每帧检查， 
+if keydowm then
+	changeAction  (same action return) --\/
+	changeDirection  (same diretion return) --\/
+	x = x + offset( offset = speed * time, time = fps )
+end
+
 ---------------------------------------------
 ]]--

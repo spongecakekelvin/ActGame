@@ -51,8 +51,7 @@ end
 
 
 initFunc["init"] = function(scene)
-	require "GameInit"
-
+	require("GameInit")
     -- local view = require("SplashView").new()
     -- scene:addChild(view)
 

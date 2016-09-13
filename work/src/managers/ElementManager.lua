@@ -12,7 +12,7 @@ function init()
 	if timerId then
 		TimeManager.removeTimer(timerId)
 	end
-	timerId = TimeManager.addTimer(frameLoopFunc, setting.fps)
+	timerId = TimeManager.addTimer(frameLoopFunc, GameConfig.fps)
 	-- timerId = TimeManager.addTimer(frameLoopFunc, 0.5)
 end
 

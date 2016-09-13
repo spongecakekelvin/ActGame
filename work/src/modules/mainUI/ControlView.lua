@@ -1,9 +1,10 @@
--- GameView.lua
+-- ControlView.lua
 local tClass =  class("ControlView", ui.BaseLayer)
 local AnimData = DataManager.AnimData
 
 local OPACITY_UNSELECT = 150
 local OPACITY_SELECT = 255
+local keyMap = GameConfig.keyMap.mapping
 
 function tClass:ctor()
     tClass.super.ctor(self)
@@ -23,6 +24,8 @@ function tClass:ctor()
     self.maxRadius = (self.size.width - self.point:getContentSize().width) / 2
 
     self:setOpacity(OPACITY_UNSELECT)
+
+    helper.addKeyboardEvent(self, handler(self, self.onKeyPressedHandler), handler(self, self.onKeyUpHandler))
 end
 
 function tClass:onEnter()
@@ -70,9 +73,12 @@ function tClass:onTouchMoved(touch, event)
         end
         self.point:setPosition(pos)
 
-        if offset.x ~= 0 and ElementManager.myRole:isStand() then
-            ElementManager.myRole:walkOffset(cc.p(offset.x > 0 and 1 or -1, 0))
+        if offset.x ~= 0 then
+            ElementManager.myRole.keyManager:keyDown(offset.x > 0 and "d" or "a")
         end
+        -- if offset.x ~= 0 and ElementManager.myRole:isStand() then
+        --     ElementManager.myRole:walkOffset(cc.p(offset.x > 0 and 1 or -1, 0))
+        -- end
     end
     return isTouch
 end
@@ -95,5 +101,24 @@ function tClass:setOpacity(value)
 end
 
 
+
+function tClass:onKeyPressedHandler(keyCode, event)
+    -- Dispatcher.dispatchEvent(EventType.KEYBOARD_PRESS, keyCode)
+    Log.d("key code pressed", keyCode)
+    if not keyMap[keyCode] then
+        return
+    end
+    ElementManager.myRole.keyManager:keyDown(keyMap[keyCode])
+end
+
+
+function tClass:onKeyUpHandler(keyCode, event)
+    -- Dispatcher.dispatchEvent(EventType.KEYBOARD_PRESS, keyCode)
+    Log.d("key code up == ", keyCode)
+    if not keyMap[keyCode] then
+        return
+    end
+    ElementManager.myRole.keyManager:keyUp(keyMap[keyCode])
+end
 
 return tClass

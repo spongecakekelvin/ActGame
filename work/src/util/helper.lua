@@ -189,3 +189,25 @@ function helper.aabb(src, dest)
         (src[2] > dest[4]) or
         (src[4] < dest[2]))
 end
+
+
+-- local function onKeyPressed(keyCode, event)
+--     Dispatcher.dispatchEvent(EventType.KEYBOARD_PRESS, keyCode)
+-- end
+function helper.addKeyboardEvent(self, onKeyPressed, onKeyReleased)
+    local eventDispatcher = self:getEventDispatcher()
+    if self._keyboradListener then
+        eventDispatcher:removeEventListener(self._keyboradListener)
+        self._keyboradListener = nil
+    end
+    local listenerkeyboard = cc.EventListenerKeyboard:create()
+    listenerkeyboard:registerScriptHandler(onKeyPressed, cc.Handler.EVENT_KEYBOARD_PRESSED )
+    listenerkeyboard:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED )
+
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listenerkeyboard, self)
+    self._keyboradListener = listenerkeyboard
+end
+
+function helper.now()
+    return os.time()
+end

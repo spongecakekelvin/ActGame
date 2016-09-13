@@ -30,13 +30,14 @@ end
 function tClass:changeAction(actionName)
 	-- todo : add some condition to block "changeAction", for attact/skill delay, 
 	--		e.g. walking cannot stop attacking action
+	-- self.actionName = actionName
 	self.model = AnimData.changeAction(self.model, actionName)
 end
 
 
-function tClass:changeGroupAction(actionName)
-	self.model = AnimData.changeAction(self.model, actionName)
-end
+-- function tClass:changeGroupAction(actionName)
+-- 	self.model = AnimData.changeAction(self.model, actionName)
+-- end
 
 
 -- 顿帧
@@ -113,6 +114,7 @@ function tClass:changeDirection(dir)
 		return
 	end
 	self._lastDirection = dir
+	self.model.direction = dir
 	Log.d("== self:setFlippedX(not self:isForward())|", (not self:isForward()), self.model.direction, DIR.right)
 	self:setFlippedX(not self:isForward()) --2为右（正）方向
 end

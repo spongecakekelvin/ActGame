@@ -3,8 +3,8 @@ local tClass = class("StateManager")
 
 ]]--
 
-function tClass:ctor(data, element)
-
+function tClass:ctor()
+	-- self.
 end
 
 

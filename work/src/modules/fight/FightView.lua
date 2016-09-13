@@ -1,4 +1,4 @@
--- GameView.lua
+-- FightView.lua
 local tClass =  class("FightView", ui.BaseLayer)
 
 local AnimData = DataManager.AnimData
@@ -6,7 +6,6 @@ local Role = require "element/Role"
 
 function tClass:ctor()
     tClass.super.ctor(self)
-
     self.elementList = {}
 end
 
