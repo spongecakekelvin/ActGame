@@ -11,7 +11,7 @@ end
 
 function tClass:onEnter()
     tClass.super.onEnter(self)
-    
+    self:initListeners()
     -- self:createMap()
     self:createElements()
 
@@ -78,6 +78,27 @@ function tClass:createElements()
 end
 
 
+function tClass:initListeners()
+	local function onKeyReleased(keyCode, event)
+        local buf = string.format("Key %d was released!",keyCode)
+        Log.d(buf)
+        if keyCode == 6 then
+            helper.exitConfirm()
+        end
+    end
+
+
+    local eventDispatcher = self:getEventDispatcher()
+    if self._keyboradListener then
+        eventDispatcher:removeEventListener(self._keyboradListener)
+    end
+    self._keyboradListener = nil
+    local listenerkeyboard = cc.EventListenerKeyboard:create()
+    listenerkeyboard:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED)
+
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listenerkeyboard, self)
+    self._keyboradListener = listenerkeyboard
+end
 
 
 

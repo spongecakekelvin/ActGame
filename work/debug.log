@@ -1,0 +1,44 @@
+Quick-Cocos2dx-Community C++ support ready.
+
+------------------------------------------------
+
+LOAD LUA FILE: F:/cocos/workspaceMy/ActGame01_lua_frame_code/work/src/main.lua
+
+------------------------------------------------
+
+[LUA-print] ;./?.lua;src/?.lua;work/src?.lua
+
+[LUA-print] ============
+
+[LUA-print] 设计分辨率: 1136 640
+
+[LUA-print] 实际分辨率: 960 640
+
+[LUA-print] 设计分辨率: 960 640
+
+[LUA-print] winSizeInPixels: 960 640
+
+[LUA-print] 可视区域visibleSize: 960 640
+
+[LUA-print] 起点坐标origin: 0 0
+
+[LUA-print] 绽放因子: 1
+
+[LUA-print] ============
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:80: attempt to call method 'PVRImagesHavePremultipliedAlpha' (a nil value)
+
+
+[LUA-print] stack traceback:
+	[string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:36: in function 'PVRImagesHavePremultipliedAlpha'
+	[string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:80: in function 'initDirector'
+	[string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:107: in function <[string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:100>
+	[C]: in function 'xpcall'
+	[string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:111: in main chunk
+
+[LUA-print] ----------------------------------------
+
+[LUA ERROR] [string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:113: [string "F:/cocos/workspaceMy/ActGame01_lua_frame_code..."]:80: attempt to call method 'PVRImagesHavePremultipliedAlpha' (a nil value)
+

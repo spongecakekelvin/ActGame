@@ -110,7 +110,7 @@ local proxy = {}
 local mt    = {
     __index = M,
     __newindex =  function (t ,k ,v)
-        print("attemp to update a read-only table")
+        -- print("attemp to update a read-only table")
     end
 } 
 setmetatable(proxy,mt)

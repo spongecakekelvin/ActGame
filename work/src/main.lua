@@ -84,7 +84,7 @@ local function initDirector()
     local origin = cc.Director:getInstance():getVisibleOrigin()
     
     --support debug
-    local targetPlatform = cc.Application:getInstance():getTargetPlatform()
+    local targetPlatform = GameConfig.targetPlatform
     if (cc.PLATFORM_OS_IPHONE == targetPlatform) or (cc.PLATFORM_OS_IPAD == targetPlatform) or
        (cc.PLATFORM_OS_ANDROID == targetPlatform) or (cc.PLATFORM_OS_WINDOWS == targetPlatform) or
        (cc.PLATFORM_OS_MAC == targetPlatform) then

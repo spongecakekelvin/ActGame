@@ -3,14 +3,13 @@
 -- 常用的方法
 --------------------------
 
-helper = helper or {}
-
+module("helper", package.seeall)
 
 -- node监听时间的节点
 -- swallow是否吞噬事件
 -- priority 不为0或nil 则是按优先度触发， 否则按场景绘制顺序触发
 -- typeName 事件类型 "OneByOne"单点 , "AllAtOne"多点 
-helper.addTouch = function(param)
+function addTouch(param)
     local node = param.node
     if tolua.isnull(node) then
         print("触摸对象为nil")
@@ -59,7 +58,7 @@ helper.addTouch = function(param)
     return listener
 end
 
-helper.isTouch = function(node, touch)
+function isTouch(node, touch)
     -- 父节点判断
     --    local target = node:getParent()
     --    if tolua.isnull(target) then
@@ -82,7 +81,7 @@ helper.isTouch = function(node, touch)
 end
 
 
-function helper.setNodeEvent(self)
+function setNodeEvent(self)
     if self.onNodeEvent_ok_ then
         return
     end
@@ -105,7 +104,7 @@ function helper.setNodeEvent(self)
 end
 
 
-function helper.setSwallow(listener, value)
+function setSwallow(listener, value)
     if nil == value then
         value = false
     end
@@ -113,7 +112,7 @@ function helper.setSwallow(listener, value)
 end
 
 
-function helper.remove(node, tag)
+function remove(node, tag)
     if node and not tolua.isnull(node) then
         if tag and type(tag) == "number" then
             node:removeChildByTag(tag, cleanup)
@@ -125,7 +124,7 @@ end
 
 
 --得到一个key-value翻转的新表
-function helper.reverseTable(tab)
+function reverseTable(tab)
     local reTab = {}
     for k, v in pairs(tab) do
         reTab[v] = k
@@ -139,13 +138,13 @@ end
 
 
 -- 重新加载模块
-function helper.reload(filePath)
+function reload(filePath)
     package.loaded[filePath] = nil
     return require (filePath)
 end
 
 
-function helper.fadeFromTo(node, time, from, to)
+function fadeFromTo(node, time, from, to)
     node:setOpacity(from or 0)
     local action = cc.FadeTo:create(time or 1, to or 255)
     node:runAction(action)
@@ -156,7 +155,7 @@ end
 
 local spriteFrameCache = cc.SpriteFrameCache:getInstance()
 
-function helper.addPlist(plistPath, image)
+function addPlist(plistPath, image)
     if not plistPath then
         Log.e("资源路径为空 plistPath = " .. plistPath)
     end
@@ -168,13 +167,13 @@ function helper.addPlist(plistPath, image)
     gprint("添加资源+: " .. plistPath)
 end
 
-function helper.removePlist(plistPath)
+function removePlist(plistPath)
     spriteFrameCache:removeSpriteFramesFromFile(plistPath)
     gprint("移除资源-: " .. plistPath)
 end
 
 
-function helper.aabb(src, dest)
+function aabb(src, dest)
     local min_x, max_x
     if dest[1] > dest[3] then
         min_x = dest[3]
@@ -194,7 +193,7 @@ end
 -- local function onKeyPressed(keyCode, event)
 --     Dispatcher.dispatchEvent(EventType.KEYBOARD_PRESS, keyCode)
 -- end
-function helper.addKeyboardEvent(self, onKeyPressed, onKeyReleased)
+function addKeyboardEvent(self, onKeyPressed, onKeyReleased)
     local eventDispatcher = self:getEventDispatcher()
     if self._keyboradListener then
         eventDispatcher:removeEventListener(self._keyboradListener)
@@ -208,6 +207,23 @@ function helper.addKeyboardEvent(self, onKeyPressed, onKeyReleased)
     self._keyboradListener = listenerkeyboard
 end
 
-function helper.now()
+function now()
     return os.time()
+end
+
+
+function exitConfirm(tip, content, leftmsg, rightmsg)
+	tip = tip or "提示"
+	content = content or "你确定要退出游戏吗？"
+	leftmsg = leftmsg or "确定"
+	rightmsg = rightmsg or "取消"
+	callJavaInJson("org/cocos2dx/lib/Cocos2dxActivity", "exitGameConfirm")
+end
+
+function callJavaInJson(cname, method, args)
+	if GameConfig.targetPlatform == cc.PLATFORM_OS_ANDROID then
+		local jsonStr = require("json").encode(args or {})
+	    local isok, ret = require("cocos/cocos2d/luaj").callStaticMethod(cname, method, {jsonStr}, "(Ljava/lang/String;)V")
+	    return isok, ret
+	end
 end
