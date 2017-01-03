@@ -3,12 +3,14 @@ local tClass = class("KeyManager")
 
 ]]--
 
-function tClass:ctor()
+function tClass:ctor(role)
 	self.keyMap = {}
 	self.currentKey = nil
 	self._onKeyDown = nil
 	self._onKeyUp = nil
-	self._queue = {}
+	self._index = 0
+	self._role = role
+	Log.d("====== role = ", tostring(role))
 end
 
 function tClass:onKeyDown(callback)
@@ -19,15 +21,15 @@ function tClass:onKeyUp(callback)
 	self._onKeyUp = callback
 end
 
+function tClass:incIndex()
+	self._index = self._index + 1
+end
+
 function tClass:keyDown(key)
-	if self.keyMap[key] then
+	if self.currentKey == key then
 		return
 	end
-	
-	local index = #self._queue + 1
-	self.keyMap[key] = index
-	self._queue[index] = key
-
+	self.keyMap[key] = os.time()
 	self.currentKey = key
 
 	if self._onKeyDown then
@@ -36,24 +38,44 @@ function tClass:keyDown(key)
 end
 
 function tClass:keyUp(key)
-	if not self.keyMap[key] then
+	if not key then
 		return
 	end
 
-	table.remove(self._queue, self.keyMap[key])
 	self.keyMap[key] = nil
 
 	self.currentKey = nil
+	local mint = 0
+	local lastKey
+	for k, v in pairs(self.keyMap) do
+		if v > mint then
+			mint = v
+			lastKey = k
+		end
+	end
+	if lastKey then
+		self.currentKey = lastKey
+	elseif self._role then
+		Log.d(" ========= roel STAND")
+		self._role:stand()
+	end
 	
 	if self._onKeyUp then
 		self._onKeyUp(key)
 	end
 end
 
-function tClass:getNextKey()
-	if #self._queue > 0 then
-		return self._queue[1]
+
+function tClass:keyDownReplace(key)
+	if self.currentKey and self.currentKey == key then
+		return
 	end
+	Log.d("====replcae key = ", key)
+	self:keyUp(self.currentKey)
+	self:keyDown(key)
+end
+
+function tClass:getNextKey()
 end
 
 

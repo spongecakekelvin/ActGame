@@ -19,8 +19,11 @@ end
 function LinkNode:removeNext()
 	if self.next then
 		local nextNode = self.next
-		if nextNode.prev and nextNode.next then
+		self.next = nextNode.next
+		if nextNode.prev then
 			nextNode.prev.next = nextNode.next
+		end
+		if nextNode.next then
 			nextNode.next.prev = nextNode.prev
 		end
 		return nextNode

@@ -49,7 +49,7 @@ end
 
 local function getActionName(model)
 	-- return "stand_d2"
-	Log.d("=== ", model.actionName, "_d2")
+	-- Log.d("=== ", model.actionName, "_d2")
 	return model.actionName .. "_d2"
 	-- return table.concat{model.actionName, "_d", model.direction}
 	
@@ -102,7 +102,7 @@ end
 -- 用于切换动作，设置动作信息
 function changeAction(model, actionName)
 	if model.isPlaying then
-		Log.i("== action's playing cannot be changed ")
+		-- Log.i("== action's playing cannot be changed ")
 		-- todo: 某些动作可以强制切换， 如技能
 		return model
 	end

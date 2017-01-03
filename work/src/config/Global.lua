@@ -12,3 +12,4 @@ DIR = DIR or {
 
 MOVE_OFFSET_X = 1 -- per frame
 MOVE_OFFSET_y = 1
+

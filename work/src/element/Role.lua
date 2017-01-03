@@ -41,6 +41,7 @@ local defaultData = {
 function tClass:ctor(animData, property)
 	self._animData = setmetatable(animData or {}, {__index = defaultData}) -- 需在父类初始化前赋值
 	tClass.super.ctor(self)
+	-- self._animNode
 
 	self._property = setmetatable(property or {}, {__index = defaultData}) -- hp mp etc.
 
@@ -50,7 +51,7 @@ function tClass:ctor(animData, property)
 	self.nextActions = {defaultData.actionName}
 
 	self.stateManager = StateManager.new()
-	self.keyManager = KeyManager.new()
+	self.keyManager = KeyManager.new(self)
 	self.keyManager:onKeyDown(handler(self, self.onKeyDownHandler))
 	self.keyManager:onKeyUp(handler(self, self.onKeyUpHandler))
 	
@@ -66,10 +67,15 @@ function tClass:isStand()
 	return ("stand" == self._animNode.model.actionName)
 end
 
+function tClass:isWalk()
+	return ("walk" == self._animNode.model.actionName)
+end
+
 function tClass:stand()
 	self.route = nil
 	self.walkFrameCallback = nil
 	self.nextActions = {defaultData.actionName}
+	self:addState(defaultData)
 end
 
 -- function tClass:getRoute(destPos)
@@ -192,7 +198,7 @@ function tClass:checkPosition(currentKey)
 
 	local action = _move[currentKey]
 	if action then
-		Log.d("==== currentKey ", currentKey, _actionName[action], _actionName[action], _direction[currentKey])
+		-- Log.d("==== currentKey ", currentKey, _actionName[action], _actionName[action], _direction[currentKey])
 
 		local dir = _direction[currentKey]
 		self:changeDirection(dir)
@@ -245,12 +251,12 @@ function tClass:onKeyDownHandler()
 end
 
 function tClass:onKeyUpHandler()
-	local nextKey = self.keyManager:getNextKey()
-	if nextKey then
-		self:checkPosition(nextKey)
-	else
-		self:changeAction(defaultData.actionName)
-	end
+	-- local nextKey = self.keyManager:getNextKey()
+	-- if nextKey then
+	-- 	self:checkPosition(nextKey)
+	-- else
+	-- 	self:changeAction(defaultData.actionName)
+	-- end
 end
 
 return tClass

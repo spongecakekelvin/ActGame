@@ -61,10 +61,14 @@ function tClass:updateFrame()
 	-- todo: 获取动作状态
 	local cancelDelay = false
 	if self.element then
-		local newData = self.element:getImmdiateState()
+		local newData = self.element:removeState()
 		if newData then
 			-- 马上切换动作， 修改model的数据
-			cancelDelay = true
+			local oldDir = self.model.direction
+			self.model = AnimData.getModel(newData.data)
+			self.model.direction = oldDir
+			Log.t(newData.data)
+			Log.d("===== 马上切换动作 ==== ")
 		end
 	end
 
@@ -78,13 +82,6 @@ function tClass:updateFrame()
 		end
 	end
 
-	if self.element then
-		local newData = self.element:removeState()
-		if newData then
-			-- 马上切换动作， 修改model的数据
-		end
-	end
-	
 	self.model.count = self.model.count + 1
 
 	local frameName = AnimData.getCurFrameName(self.model, self.element.nextActions[1])

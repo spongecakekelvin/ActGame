@@ -10,8 +10,9 @@ isDebug = true
 isInGuideMode = true --引导调试
 --    animationInterval = 1/30,
 
+targetPlatform = cc.Application:getInstance():getTargetPlatform()
+
 defaultFonts = "Microsoft YaHei"
-local targetPlatform = cc.Application:getInstance():getTargetPlatform()
 if targetPlatform ~= cc.PLATFORM_OS_WINDOWS then
     GameConfig.defaultFonts = "Arial"
 end

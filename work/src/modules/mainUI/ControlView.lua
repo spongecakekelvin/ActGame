@@ -73,10 +73,10 @@ function tClass:onTouchMoved(touch, event)
         end
         self.point:setPosition(pos)
 
-        if offset.x ~= 0 then
-            ElementManager.myRole.keyManager:keyDown(offset.x > 0 and "d" or "a")
+        if offset.x ~= 0 and (ElementManager.myRole:isStand() or ElementManager.myRole:isWalk()) then
+        -- if offset.x ~= 0 then
+            ElementManager.myRole.keyManager:keyDownReplace(offset.x > 0 and "d" or "a")
         end
-        -- if offset.x ~= 0 and ElementManager.myRole:isStand() then
         --     ElementManager.myRole:walkOffset(cc.p(offset.x > 0 and 1 or -1, 0))
         -- end
     end
@@ -90,7 +90,8 @@ function tClass:onTouchEnded(touch, event)
         self.point:setPosition(self.originPos)
         self:setOpacity(OPACITY_UNSELECT)
 
-        ElementManager.myRole:stand()
+        ElementManager.myRole.keyManager:keyUp("d")
+        ElementManager.myRole.keyManager:keyUp("a")
     end
     return isTouch
 end
